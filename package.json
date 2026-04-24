@@ -1,0 +1,88 @@
+{
+	"name": "focus-mode",
+	"displayName": "Focus Mode",
+	"description": "Pomodoro focus timer with streak tracking for VS Code.",
+	"version": "0.0.1",
+	"publisher": "benni",
+	"engines": {
+		"vscode": "^1.85.0"
+	},
+	"categories": [
+		"Productivity"
+	],
+	"main": "./out/extension.js",
+	"activationEvents": [
+		"onCommand:focusMode.start",
+		"onCommand:focusMode.stop",
+		"onCommand:focusMode.pause",
+		"onCommand:focusMode.openDashboard"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "focusMode.start",
+				"title": "$(rocket) Start Focus Session"
+			},
+			{
+				"command": "focusMode.pause",
+				"title": "$(debug-pause) Pause Focus Session"
+			},
+			{
+				"command": "focusMode.stop",
+				"title": "$(stop-circle) Stop Focus Session"
+			},
+			{
+				"command": "focusMode.openDashboard",
+				"title": "$(graph) Open Focus Dashboard"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "focusMode.start",
+				"key": "ctrl+alt+f",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "focusMode.stop",
+				"key": "ctrl+alt+s",
+				"when": "editorTextFocus"
+			}
+		],
+		"configuration": {
+			"title": "Focus Mode",
+			"properties": {
+				"focusMode.timerDuration": {
+					"type": "number",
+					"default": 25,
+					"minimum": 1,
+					"description": "Session length in minutes"
+				},
+				"focusMode.blockedFilePatterns": {
+					"type": "array",
+					"default": [
+						"*.md"
+					],
+					"items": {
+						"type": "string"
+					},
+					"description": "Glob-like patterns of files to close during an active focus session (for example: *.md, package-lock.json)."
+				},
+				"focusMode.enableFileBlocking": {
+					"type": "boolean",
+					"default": true,
+					"description": "Close files matching blocked patterns while a focus session is running."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.0",
+		"@types/vscode": "^1.85.0",
+		"typescript": "^5.4.0"
+	}
+}
