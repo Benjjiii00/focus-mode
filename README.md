@@ -14,3 +14,8 @@ Made like the Pomodoro Learning Method.
 
 Stay focused while working
 Use a well-known learning technic
+
+
+## Install it
+
+Go to the extension page on VS-Code --> click on the three dots --> Install from vsix (the one from the release page)
