@@ -11,6 +11,7 @@ let webviewPanel: FocusWebviewPanel | undefined;
 export function activate(context: vscode.ExtensionContext): void {
   statusBarManager = new StatusBarManager();
   const streakManager = new StreakManager(context);
+  let statusBarSingleClickTimeout: NodeJS.Timeout | undefined;
 
   const refreshDashboard = () => {
     if (!timerManager || !webviewPanel) {
@@ -64,6 +65,32 @@ export function activate(context: vscode.ExtensionContext): void {
     statusBarManager,
     timerManager,
     webviewPanel,
+    vscode.commands.registerCommand("focusMode.statusBarAction", () => {
+      const manager = timerManager;
+      if (!manager) {
+        return;
+      }
+
+      if (statusBarSingleClickTimeout) {
+        clearTimeout(statusBarSingleClickTimeout);
+        statusBarSingleClickTimeout = undefined;
+        manager.stop();
+        refreshDashboard();
+        return;
+      }
+
+      statusBarSingleClickTimeout = setTimeout(() => {
+        statusBarSingleClickTimeout = undefined;
+
+        if (manager.isRunning) {
+          manager.pause();
+        } else {
+          manager.start();
+        }
+
+        refreshDashboard();
+      }, 260);
+    }),
     vscode.commands.registerCommand("focusMode.start", () => {
       timerManager?.start();
       refreshDashboard();

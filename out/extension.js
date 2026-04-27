@@ -13,6 +13,7 @@ let webviewPanel;
 function activate(context) {
     statusBarManager = new statusBar_1.StatusBarManager();
     const streakManager = new streakManager_1.StreakManager(context);
+    let statusBarSingleClickTimeout;
     const refreshDashboard = () => {
         if (!timerManager || !webviewPanel) {
             return;
@@ -57,7 +58,29 @@ function activate(context) {
             refreshDashboard();
         }
     });
-    context.subscriptions.push(statusBarManager, timerManager, webviewPanel, vscode.commands.registerCommand("focusMode.start", () => {
+    context.subscriptions.push(statusBarManager, timerManager, webviewPanel, vscode.commands.registerCommand("focusMode.statusBarAction", () => {
+        const manager = timerManager;
+        if (!manager) {
+            return;
+        }
+        if (statusBarSingleClickTimeout) {
+            clearTimeout(statusBarSingleClickTimeout);
+            statusBarSingleClickTimeout = undefined;
+            manager.stop();
+            refreshDashboard();
+            return;
+        }
+        statusBarSingleClickTimeout = setTimeout(() => {
+            statusBarSingleClickTimeout = undefined;
+            if (manager.isRunning) {
+                manager.pause();
+            }
+            else {
+                manager.start();
+            }
+            refreshDashboard();
+        }, 260);
+    }), vscode.commands.registerCommand("focusMode.start", () => {
         timerManager?.start();
         refreshDashboard();
     }), vscode.commands.registerCommand("focusMode.pause", () => {

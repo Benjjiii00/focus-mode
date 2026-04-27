@@ -8,8 +8,8 @@ export class StatusBarManager implements vscode.Disposable {
       vscode.StatusBarAlignment.Left,
       100
     );
-    this.item.command = "focusMode.stop";
-    this.item.tooltip = "Focus Mode: stop current session";
+    this.item.command = "focusMode.statusBarAction";
+    this.item.tooltip = "Focus Mode: click to start/pause, double-click to stop";
     this.item.show();
   }
 
