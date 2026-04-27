@@ -1,14 +1,14 @@
 {
 	"name": "focus-mode",
-	"displayName": "Focus Mode",
+	"displayName": "Pomodoro Focus Mode",
 	"description": "Pomodoro focus timer with streak tracking for VS Code.",
 	"version": "0.0.1",
-	"publisher": "benni",
+	"publisher": "Benjjiii00-focus",
 	"engines": {
 		"vscode": "^1.85.0"
 	},
 	"categories": [
-		"Productivity"
+		"Education"
 	],
 	"main": "./out/extension.js",
 	"activationEvents": [
